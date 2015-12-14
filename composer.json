@@ -1,0 +1,34 @@
+{
+  "name": "rcm/vimeo",
+  "description": "A Reliv Content Manager Plugin for editable areas that allows you to add vimeo embed, text, images, lists, links and more.",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "reliv",
+    "content",
+    "manager",
+    "plugin",
+    "rcm",
+    "vimeo"
+  ],
+  "homepage": "https://github.com/reliv/rcm-vimeo",
+  "authors": [
+    {
+      "name": "James Jervis",
+      "email": "jjervis@relivinc.com",
+      "homepage": "http://www.reliv.com/"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "rwoverdijk/assetmanager": "1.*",
+    "rcm/core": "0.*"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "2.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Rcm\\Vimeo\\": "src/"
+    }
+  }
+}
