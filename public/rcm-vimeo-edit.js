@@ -14,24 +14,22 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
     var ajaxPluginEditHelper = new AjaxPluginEditHelper(instanceId, container, pluginHandler);
 
     /**
+     * initEdit
+     */
+    self.initEdit = function () {
+        pluginHandler.getInstanceConfig(
+            function (instanceConfig, defaultInstanceConfig) {
+                self.instanceConfig = instanceConfig;
+            }
+        )
+    };
+
+    /**
      *
      * @returns {null|*}
      */
     self.getSaveData = function () {
         return self.instanceConfig;
-    };
-
-    /**
-     * getInstanceConfig
-     * @param callback
-     */
-    self.getInstanceConfig = function(callback) {
-        pluginHandler.getInstanceConfig(
-            function(instanceConfig, defaultInstanceConfig) {
-                self.instanceConfig = instanceConfig;
-                callback(instanceConfig, defaultInstanceConfig);
-            }
-        )
     };
 
     /**
@@ -41,7 +39,7 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
 
         var videoIdInput = jQuery.dialogIn(
             'text',
-            'Video Id',
+            'Video Id or Video page URL',
             self.instanceConfig.videoId
         );
 
@@ -60,8 +58,7 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
                         },
                         Ok: function () {
 
-                            console.log(videoIdInput.val());
-                            self.instanceConfig.videoId = videoIdInput.val();
+                            self.instanceConfig.videoId = self.parseUrl(videoIdInput.val());
 
                             $(this).dialog("close");
                         }
@@ -71,13 +68,20 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
     };
 
     /**
+     *
+     * @param url
+     * @returns {*}
+     */
+    self.parseUrl = function(url) {
+        var values = url.split("/");
+
+        return values.slice(-1)[0];
+    };
+
+    /**
      * attachPropertiesDialog
      */
     ajaxPluginEditHelper.attachPropertiesDialog(
-        function() {
-            self.getInstanceConfig(
-                self.showEditDialog
-            );
-        }
+        self.showEditDialog
     );
 };

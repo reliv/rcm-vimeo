@@ -7,10 +7,34 @@
     max-width: 100%;
 }
 
-.rcm-vimeo .embed-container iframe, .embed-container object, .embed-container embed {
+.rcm-vimeo .embed-container iframe,
+.rcm-vimeo .embed-container object,
+.rcm-vimeo .embed-container embed {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
 }
+
+.rcm-vimeo .embed-container.placeholder {
+    display: none;
+    background-color: #999999;
+}
+
+.rcmPlugin.RcmVimeo.ui-draggable-dragging .embed-container {
+    display: none;
+}
+
+.rcmPlugin.RcmVimeo.rcm-plugin-editing .embed-container{
+    display: none;
+}
+
+.rcmPlugin.RcmVimeo.ui-draggable-dragging .embed-container.placeholder {
+    display: block;
+}
+
+.rcmPlugin.RcmVimeo.rcm-plugin-editing .embed-container.placeholder{
+    display: block;
+}
+
