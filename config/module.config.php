@@ -23,15 +23,24 @@ return [
             'aliases' => [
                 'modules/rcm-vimeo/' => __DIR__ . '/../public/',
             ],
+            'collections' => [
+                'modules/rcm/modules.css' => [
+                    'modules/rcm-vimeo/rcm-vimeo.css'
+                ],
+                'modules/rcm-admin/admin.js' => [
+                    'modules/rcm-vimeo/rcm-vimeo-edit.js',
+                ],
+            ],
         ],
     ],
     'rcmPlugin' => [
         'RcmVimeo' => [
-            'type' => 'Common',
-            'display' => 'Vimeo embed html',
-            'tooltip' => 'An editable area that allows you to add Vimeo embed, text, images, lists, links and more.',
+            'type' => 'Social Media',
+            'display' => 'Vimeo Player',
+            'tooltip' => 'An editable area that allows you to add Vimeo with some html.',
             'icon' => '/modules/rcm-vimeo/icon.png',
-            'canCache'=> true
+            'canCache'=> true,
+            'defaultInstanceConfig' => include __DIR__ . '/defaultInstanceConfig.php'
         ],
     ],
     'view_manager' => [

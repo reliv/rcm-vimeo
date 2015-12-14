@@ -1,6 +1,6 @@
 {
   "name": "rcm/vimeo",
-  "description": "A Reliv Content Manager Plugin for editable areas that allows you to add vimeo embed, text, images, lists, links and more.",
+  "description": "An editable area that allows you to add Vimeo with some html",
   "license": "BSD-3-Clause",
   "keywords": [
     "reliv",
