@@ -1,12 +1,4 @@
 <div class="rcm-vimeo">
-    <?=
-    $this->rcmRichEdit(
-        'rcm-vimeo-header',
-        '',
-        'div',
-        ['class' => 'rcm-vimeo-header']
-    );
-    ?>
     <div class="rcm-vimeo-video">
         <div class='embed-container'>
             <iframe src='https://player.vimeo.com/video/<?= $this->instanceConfig['videoId'] ?>'
@@ -19,12 +11,4 @@
             <div class="icon">&nbsp;</div>
         </div>
     </div>
-    <?=
-    $this->rcmRichEdit(
-        'rcm-vimeo-footer',
-        '',
-        'div',
-        ['class' => 'rcm-vimeo-footer']
-    );
-    ?>
 </div>

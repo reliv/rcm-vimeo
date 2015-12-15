@@ -37,7 +37,7 @@ return [
         'RcmVimeo' => [
             'type' => 'Social Media',
             'display' => 'Vimeo Player',
-            'tooltip' => 'An editable area that allows you to add Vimeo with some html.',
+            'tooltip' => 'Display a Vimeo video.',
             'icon' => '/modules/rcm-vimeo/icon.png',
             'canCache'=> true,
             'defaultInstanceConfig' => include __DIR__ . '/defaultInstanceConfig.php'
