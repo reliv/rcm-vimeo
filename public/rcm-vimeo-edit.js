@@ -43,9 +43,16 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
             self.instanceConfig.videoId
         );
 
+        var downloadLinkInput = jQuery.dialogIn(
+            'url',
+            'Optional download link (Must be a non-expiring Vimeo link from the Vimeo admin screen.)',
+            self.instanceConfig.downloadLink
+        );
+
         $('<form></form>')
             .addClass('simple')
             .append(videoIdInput)
+            .append(downloadLinkInput)
             .dialog(
                 {
                     title: 'Properties',
@@ -59,6 +66,7 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
                         Ok: function () {
 
                             self.instanceConfig.videoId = self.parseUrl(videoIdInput.val());
+                            self.instanceConfig.downloadLink = downloadLinkInput.val();
 
                             $(this).dialog("close");
                         }
