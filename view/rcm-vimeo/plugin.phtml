@@ -1,5 +1,8 @@
 <div class="rcm-vimeo">
     <div class="rcm-vimeo-video">
+        <?php if ($this->instanceConfig['downloadLink']) : ?>
+            <a href="<?= $this->instanceConfig['downloadLink'] ?>">Download Video</a>
+        <?php endif ?>
         <div class='embed-container'>
             <iframe src='https://player.vimeo.com/video/<?= $this->instanceConfig['videoId'] ?>'
                     frameborder='0'
