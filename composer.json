@@ -21,7 +21,7 @@
   "require": {
     "php": ">=5.4.0",
     "rwoverdijk/assetmanager": "1.*",
-    "rcm/core": "0.*"
+    "rcm/core": "1.*"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "2.*"
