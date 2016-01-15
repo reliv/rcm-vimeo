@@ -1,5 +1,6 @@
 <?php
 return [
     'videoId' => '148397288',
-    'downloadLink' => ''
+    'downloadLink' => '',
+    'aspectRatio' => '16:9',
 ];

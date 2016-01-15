@@ -27,6 +27,9 @@ return [
                 'modules/rcm/modules.css' => [
                     'modules/rcm-vimeo/rcm-vimeo.css'
                 ],
+                'modules/rcm/modules.js' => [
+                    'modules/rcm-vimeo/rcm-vimeo.js'
+                ],
                 'modules/rcm-admin/admin.js' => [
                     'modules/rcm-vimeo/rcm-vimeo-edit.js',
                 ],
