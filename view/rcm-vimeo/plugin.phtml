@@ -1,17 +1,26 @@
+<?php
+$ratio = $this->instanceConfig['aspectRatio'];
+?>
 <div class="rcm-vimeo">
     <div class="rcm-vimeo-video">
         <?php if ($this->instanceConfig['downloadLink']) : ?>
             <a href="<?= $this->instanceConfig['downloadLink'] ?>">Download Video</a>
         <?php endif ?>
-        <div class='embed-container'>
-            <iframe src='https://player.vimeo.com/video/<?= $this->instanceConfig['videoId'] ?>'
+        <div class='embed-container' rcm-vimeo-aspect-ratio="<?= $ratio; ?>">
+            <iframe rcm-vimeo-aspect-ratio="<?= $ratio; ?>""
+                    src='https://player.vimeo.com/video/<?= $this->instanceConfig['videoId'] ?>'
                     frameborder='0'
                     webkitAllowFullScreen
                     mozallowfullscreen
                     allowFullScreen></iframe>
         </div>
-        <div class='embed-container placeholder'>
+        <div class='embed-container placeholder'rcm-vimeo-aspect-ratio="<?= $ratio; ?>">
             <div class="icon">&nbsp;</div>
+            <div class="label">
+                <a href="https://vimeo.com/<?= $this->instanceConfig['videoId'] ?>" target="_blank">
+                    https://vimeo.com/<?= $this->instanceConfig['videoId'] ?>
+                </a>
+            </div>
         </div>
     </div>
 </div>

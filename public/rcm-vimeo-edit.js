@@ -49,10 +49,18 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
             self.instanceConfig.downloadLink
         );
 
+        var aspectRatioInput = jQuery.dialogIn(
+            'text',
+            'Set the aspect ratio for the video in format {width}:{height}.<br/>' +
+            'Examples: 16:9, 4:3, 2.35:1, 2.39:1',
+            self.instanceConfig.aspectRatio
+        );
+
         $('<form></form>')
             .addClass('simple')
             .append(videoIdInput)
             .append(downloadLinkInput)
+            .append(aspectRatioInput)
             .dialog(
                 {
                     title: 'Properties',
@@ -67,6 +75,12 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
 
                             self.instanceConfig.videoId = self.parseUrl(videoIdInput.val());
                             self.instanceConfig.downloadLink = downloadLinkInput.val();
+                            var aspectRatio = aspectRatioInput.val();
+                            if(!self.isValidRatio(aspectRatio)) {
+                                window.alert(aspectRatio + ' is not a valid aspect ratio');
+                                return;
+                            }
+                            self.setAspectRation(aspectRatio);
 
                             $(this).dialog("close");
                         }
@@ -75,12 +89,38 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
             );
     };
 
+    self.isValidRatio = function (aspectRatio) {
+        var parts = aspectRatio.split(':');
+        if (parts.length !== 2) {
+            return false;
+        }
+
+        var isNumeric = /^[-+]?(\d+|\d+\.\d*|\d*\.\d+)$/;
+
+        console.log(isNumeric.test(parts[0]),isNumeric.test(parts[1]));
+
+        return (isNumeric.test(parts[0]) && isNumeric.test(parts[1]));
+    };
+
+    /**
+     * setAspectRation
+     * @param aspectRatio
+     */
+    self.setAspectRation = function (aspectRatio) {
+        self.instanceConfig.aspectRatio = aspectRatio;
+        container.find('[rcm-vimeo-aspect-ratio]').attr(
+            'rcm-vimeo-aspect-ratio',
+            aspectRatio
+        );
+        rcmVimeo.setAspectRatios();
+    };
+
     /**
      *
      * @param url
      * @returns {*}
      */
-    self.parseUrl = function(url) {
+    self.parseUrl = function (url) {
         var values = url.split("/");
 
         return values.slice(-1)[0];
