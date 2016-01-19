@@ -4,7 +4,7 @@ $ratio = $this->instanceConfig['aspectRatio'];
 <div class="rcm-vimeo">
     <div class="rcm-vimeo-video">
         <?php if ($this->instanceConfig['downloadLink']) : ?>
-            <a href="<?= $this->instanceConfig['downloadLink'] ?>">Download Video</a>
+            <a href="<?= $this->instanceConfig['downloadLink'] ?>" target="_blank">Download Video</a>
         <?php endif ?>
         <div class='embed-container' rcm-vimeo-aspect-ratio="<?= $ratio; ?>">
             <iframe rcm-vimeo-aspect-ratio="<?= $ratio; ?>""
