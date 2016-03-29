@@ -97,8 +97,6 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
 
         var isNumeric = /^[-+]?(\d+|\d+\.\d*|\d*\.\d+)$/;
 
-        console.log(isNumeric.test(parts[0]),isNumeric.test(parts[1]));
-
         return (isNumeric.test(parts[0]) && isNumeric.test(parts[1]));
     };
 
