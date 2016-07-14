@@ -4,10 +4,6 @@ var rcmVimeo = {
      * @param elem
      */
     setAspectRatio: function (elem) {
-        // sometime we get elems without width
-        if(elem.width) {
-            return;
-        }
         var width = elem.width();
         var ratioParts = elem.attr('rcm-vimeo-aspect-ratio').split(':');
         var xRatio = ratioParts[0];
@@ -33,13 +29,11 @@ var rcmVimeo = {
      */
     init: function () {
         var elems = rcmVimeo.setAspectRatios();
-        jQuery.each(
-            elems,
-            function () {
-                var elem = jQuery(this);
-                elem.resize(elem, rcmVimeo.setAspectRatio);
-            }
-        );
+        for (var i = 0, len = elems.length; i < len; i++) {
+            var elem = jQuery($(elems[i]));
+            elem.resize(elem, rcmVimeo.setAspectRatio);
+        }
+
     }
 };
 // Run onReady
