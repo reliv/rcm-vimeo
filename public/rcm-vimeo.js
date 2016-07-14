@@ -18,12 +18,9 @@ var rcmVimeo = {
     setAspectRatios: function () {
         var elems = jQuery('[rcm-vimeo-aspect-ratio]');
 
-        jQuery.each(
-            elems, function () {
-                var elem = $(this);
-                rcmVimeo.setAspectRatio(elem);
-            }
-        );
+        for (var i = 0, len = elems.length; i < len; i++) {
+            rcmVimeo.setAspectRatio($(elems[i]));
+        }
 
         return elems;
     },
