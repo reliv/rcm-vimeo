@@ -1,7 +1,7 @@
 var rcmVimeo = {
     /**
      * setAspectRatio
-     * @param elem
+     * @param {jQuery} elem
      */
     setAspectRatio: function (elem) {
         var width = elem.width();
@@ -13,7 +13,7 @@ var rcmVimeo = {
     },
     /**
      * setAspectRatios
-     * @returns {elem Collection}
+     * @returns {*}
      */
     setAspectRatios: function () {
         var elems = jQuery('[rcm-vimeo-aspect-ratio]');
@@ -31,12 +31,16 @@ var rcmVimeo = {
         var elems = rcmVimeo.setAspectRatios();
         for (var i = 0, len = elems.length; i < len; i++) {
             var elem = jQuery($(elems[i]));
-            elem.resize(elem, rcmVimeo.setAspectRatio);
+            elem.resize(elem, function(){
+                rcmVimeo.setAspectRatio($(this))
+            });
         }
 
     }
 };
-// Run onReady
-jQuery(rcmVimeo.init);
-// Run when window is resized
-jQuery(window).resize(rcmVimeo.setAspectRatios);
+//Wait for jQuery ready
+jQuery(function () {
+    rcmVimeo.init();
+    jQuery(window).resize(rcmVimeo.setAspectRatios);
+});
+
