@@ -56,11 +56,23 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
             self.instanceConfig.aspectRatio
         );
 
+        var autoPlay = jQuery.dialogIn(
+            'select',
+            'AutoPlay',
+            {
+                '': 'None',
+                'background': 'Play silently in the background when page loads',
+                'autoplay': 'Play when page loads'
+            },
+            self.instanceConfig.autoPlay
+        );
+
         $('<form></form>')
             .addClass('simple')
             .append(videoIdInput)
             .append(downloadLinkInput)
             .append(aspectRatioInput)
+            .append(autoPlay)
             .dialog(
                 {
                     title: 'Properties',
@@ -75,8 +87,9 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
 
                             self.instanceConfig.videoId = self.parseUrl(videoIdInput.val());
                             self.instanceConfig.downloadLink = downloadLinkInput.val();
+                            self.instanceConfig.autoPlay = autoPlay.val();
                             var aspectRatio = aspectRatioInput.val();
-                            if(!self.isValidRatio(aspectRatio)) {
+                            if (!self.isValidRatio(aspectRatio)) {
                                 window.alert(aspectRatio + ' is not a valid aspect ratio');
                                 return;
                             }
