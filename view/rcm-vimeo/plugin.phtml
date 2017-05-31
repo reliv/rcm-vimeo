@@ -33,12 +33,12 @@ if (!empty($query)) {
     $videoUrl = $videoUrl . '?' . http_build_query($query);
 }
 
+$downloadLinkStyle = (empty($downloadLink) ? 'display: none;' : '');
+
 ?>
 <div class="rcm-vimeo">
     <div class="rcm-vimeo-video">
-        <?php if (!empty($downloadLink)) : ?>
-            <a class="rcm-vimeo-video-download" href="<?= $downloadLink ?>" target="_blank">Download Video</a>
-        <?php endif ?>
+        <a class="rcm-vimeo-video-download" style="<?= $downloadLinkStyle ?>" href="<?= $downloadLink ?>" target="_blank">Download Video</a>
         <div class='embed-container' rcm-vimeo-aspect-ratio="<?= $ratio; ?>">
             <iframe rcm-vimeo-aspect-ratio="<?= $ratio; ?>"
                     src='<?= $videoUrl; ?>'

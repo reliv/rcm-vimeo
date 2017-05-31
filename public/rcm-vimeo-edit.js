@@ -39,6 +39,8 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
 
         var pluginElm = jQuery(pluginHandler.getElm());
 
+        var initialInstanceConfig = jQuery.extend({}, self.instanceConfig);
+
         var videoIdInput = jQuery.dialogIn(
             'text',
             'Video Id or Video page URL',
@@ -92,19 +94,13 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
             self.instanceConfig.downloadWidth
         );
 
-        downloadLinkInput.hide();
-        downloadWidthInput.hide();
-
-        var handleTypeSelect = function () {
-            var elm = jQuery(this);
-            var value = elm.val();
-
+        var setTypeState = function (downloadLinkType) {
             downloadLinkInput.hide();
             downloadWidthInput.hide();
 
             var downloadLinkElm = pluginElm.find('.rcm-vimeo-video-download');
 
-            switch(value) {
+            switch(downloadLinkType) {
                 case 'vimeo-api':
                     downloadLinkElm.show();
                     downloadWidthInput.show();
@@ -116,6 +112,14 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
                 default:
                     downloadLinkElm.hide();
             }
+        };
+
+        downloadLinkInput.hide();
+        downloadWidthInput.hide();
+
+        var handleTypeSelect = function () {
+            var elm = jQuery(this);
+            setTypeState(elm.val());
         };
 
         downloadLinkTypeInput.find('select').change(
@@ -139,6 +143,7 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
                     zIndex: 2000000,
                     buttons: {
                         Cancel: function () {
+                            setTypeState(initialInstanceConfig.downloadLinkType);
                             jQuery(this).dialog("close");
                         },
                         Ok: function () {
@@ -147,6 +152,8 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
                             self.instanceConfig.downloadLink = downloadLinkInput.val();
                             self.instanceConfig.downloadWidth = downloadWidthInput.val();
                             self.instanceConfig.autoPlay = autoPlay.val();
+
+                            setTypeState(self.instanceConfig.downloadLinkType);
 
                             var aspectRatio = aspectRatioInput.val();
                             if (!self.isValidRatio(aspectRatio)) {
@@ -160,6 +167,8 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
                     }
                 }
             );
+
+        setTypeState(self.instanceConfig.downloadLinkType);
     };
 
     self.isValidRatio = function (aspectRatio) {
