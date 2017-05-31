@@ -37,22 +37,20 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
      */
     self.showEditDialog = function () {
 
+        var pluginElm = jQuery(pluginHandler.getElm());
+
+        var initialInstanceConfig = jQuery.extend({}, self.instanceConfig);
+
         var videoIdInput = jQuery.dialogIn(
             'text',
             'Video Id or Video page URL',
             self.instanceConfig.videoId
         );
 
-        var downloadLinkInput = jQuery.dialogIn(
-            'url',
-            'Optional download link (Must be a non-expiring Vimeo link from the Vimeo admin screen.)',
-            self.instanceConfig.downloadLink
-        );
-
         var aspectRatioInput = jQuery.dialogIn(
             'text',
             'Set the aspect ratio for the video in format {width}:{height}.<br/>' +
-            'Examples: 16:9, 4:3, 2.35:1, 2.39:1',
+            '<em>Examples: 16:9, 4:3, 2.35:1, 2.39:1</em>',
             self.instanceConfig.aspectRatio
         );
 
@@ -67,12 +65,76 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
             self.instanceConfig.autoPlay
         );
 
-        $('<form></form>')
+        /* <downloadLink> */
+        var downloadLinkTypeSelections = {
+            'none': 'No download link',
+            'vimeo-api': 'Auto (using vimeo API from rcm-vimeo-data)',
+            'custom': 'Custom'
+        };
+
+        var downloadLinkTypeInput = jQuery.dialogIn(
+            'select',
+            'Optional download link',
+            downloadLinkTypeSelections,
+            self.instanceConfig.downloadLinkType
+        );
+
+        var downloadLinkInput = jQuery.dialogIn(
+            'url',
+            'Download link <br/>' +
+            '<em>(Must be a non-expiring Vimeo link from the Vimeo admin screen.)</em>',
+            self.instanceConfig.downloadLink
+        );
+
+        var downloadWidthInput = jQuery.dialogIn(
+            'text',
+            'Download video width in pixels <em>(optional)</em> ' +
+            '<em>(Will find the closest available width.)</em><br/>' +
+            '<em>Examples: 1080p = 1920, 720p = 1280, 480p = 720</em>',
+            self.instanceConfig.downloadWidth
+        );
+
+        var setTypeState = function (downloadLinkType) {
+            downloadLinkInput.hide();
+            downloadWidthInput.hide();
+
+            var downloadLinkElm = pluginElm.find('.rcm-vimeo-video-download');
+
+            switch(downloadLinkType) {
+                case 'vimeo-api':
+                    downloadLinkElm.show();
+                    downloadWidthInput.show();
+                    break;
+                case 'custom':
+                    downloadLinkElm.show();
+                    downloadLinkInput.show();
+                    break;
+                default:
+                    downloadLinkElm.hide();
+            }
+        };
+
+        downloadLinkInput.hide();
+        downloadWidthInput.hide();
+
+        var handleTypeSelect = function () {
+            var elm = jQuery(this);
+            setTypeState(elm.val());
+        };
+
+        downloadLinkTypeInput.find('select').change(
+            handleTypeSelect
+        );
+        /* </downloadLink> */
+
+        jQuery('<form></form>')
             .addClass('simple')
             .append(videoIdInput)
-            .append(downloadLinkInput)
             .append(aspectRatioInput)
             .append(autoPlay)
+            .append(downloadLinkTypeInput)
+            .append(downloadLinkInput)
+            .append(downloadWidthInput)
             .dialog(
                 {
                     title: 'Properties',
@@ -81,13 +143,18 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
                     zIndex: 2000000,
                     buttons: {
                         Cancel: function () {
-                            $(this).dialog("close");
+                            setTypeState(initialInstanceConfig.downloadLinkType);
+                            jQuery(this).dialog("close");
                         },
                         Ok: function () {
-
                             self.instanceConfig.videoId = self.parseUrl(videoIdInput.val());
+                            self.instanceConfig.downloadLinkType = downloadLinkTypeInput.val();
                             self.instanceConfig.downloadLink = downloadLinkInput.val();
+                            self.instanceConfig.downloadWidth = downloadWidthInput.val();
                             self.instanceConfig.autoPlay = autoPlay.val();
+
+                            setTypeState(self.instanceConfig.downloadLinkType);
+
                             var aspectRatio = aspectRatioInput.val();
                             if (!self.isValidRatio(aspectRatio)) {
                                 window.alert(aspectRatio + ' is not a valid aspect ratio');
@@ -95,11 +162,13 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
                             }
                             self.setAspectRation(aspectRatio);
 
-                            $(this).dialog("close");
+                            jQuery(this).dialog("close");
                         }
                     }
                 }
             );
+
+        setTypeState(self.instanceConfig.downloadLinkType);
     };
 
     self.isValidRatio = function (aspectRatio) {
