@@ -1,20 +1,43 @@
 <?php
 $ratio = $this->instanceConfig['aspectRatio'];
-$videoUrl = "https://player.vimeo.com/video/{$this->instanceConfig['videoId']}";
+$videoId = $this->instanceConfig['videoId'];
+$videoUrl = "https://player.vimeo.com/video/{$videoId}";
+$downloadLinkType = $this->instanceConfig['downloadLinkType'];
+$downloadWidth = (int)$this->instanceConfig['downloadWidth'];
+$downloadLink = '';
+
+switch ($downloadLinkType) {
+    case 'custom' :
+        $downloadLink = $this->instanceConfig['downloadLink'];
+        break;
+    case 'vimeo-api':
+        $downloadLink = '/vimeo/video/{videoId}/download';
+
+        if (!empty($downloadWidth)) {
+            $downloadLink = "{$downloadLink}?width={$downloadWidth}";
+        }
+        break;
+    default:
+        $downloadLink = '';
+        break;
+}
+
+$downloadLink = str_replace('{videoId}', $videoId, $downloadLink);
+
 $query = [];
 
 if (!empty($this->instanceConfig['autoPlay'])) {
     $query[$this->instanceConfig['autoPlay']] = '1';
 }
-if(!empty($query)) {
+if (!empty($query)) {
     $videoUrl = $videoUrl . '?' . http_build_query($query);
 }
 
 ?>
 <div class="rcm-vimeo">
     <div class="rcm-vimeo-video">
-        <?php if ($this->instanceConfig['downloadLink']) : ?>
-            <a href="<?= $this->instanceConfig['downloadLink'] ?>" target="_blank">Download Video</a>
+        <?php if (!empty($downloadLink)) : ?>
+            <a class="rcm-vimeo-video-download" href="<?= $downloadLink ?>" target="_blank">Download Video</a>
         <?php endif ?>
         <div class='embed-container' rcm-vimeo-aspect-ratio="<?= $ratio; ?>">
             <iframe rcm-vimeo-aspect-ratio="<?= $ratio; ?>"
@@ -27,8 +50,8 @@ if(!empty($query)) {
         <div class='embed-container placeholder' rcm-vimeo-aspect-ratio="<?= $ratio; ?>">
             <div class="icon">&nbsp;</div>
             <div class="label">
-                <a href="https://vimeo.com/<?= $this->instanceConfig['videoId'] ?>" target="_blank">
-                    https://vimeo.com/<?= $this->instanceConfig['videoId'] ?>
+                <a href="https://vimeo.com/<?= $videoId ?>" target="_blank">
+                    https://vimeo.com/<?= $videoId ?>
                 </a>
             </div>
         </div>
