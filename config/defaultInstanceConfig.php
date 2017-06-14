@@ -6,4 +6,5 @@ return [
     'downloadWidth' => '1920',
     'aspectRatio' => '16:9',
     'autoPlay' => '', // 'background', 'autoplay'
+    'overlayLink' => '', // Url
 ];
