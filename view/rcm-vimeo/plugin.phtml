@@ -5,6 +5,17 @@ $videoUrl = "https://player.vimeo.com/video/{$videoId}";
 $downloadLinkType = $this->instanceConfig['downloadLinkType'];
 $downloadWidth = (int)$this->instanceConfig['downloadWidth'];
 $downloadLink = '';
+$autoPlay = $this->instanceConfig['autoPlay'];
+$overlayLink = '';
+
+switch ($autoPlay) {
+    case 'background' :
+        $overlayLink = trim($this->instanceConfig['overlayLink']);;
+        break;
+    default:
+        $overlayLink = '';
+        break;
+}
 
 switch ($downloadLinkType) {
     case 'custom' :
@@ -26,8 +37,8 @@ $downloadLink = str_replace('{videoId}', $videoId, $downloadLink);
 
 $query = [];
 
-if (!empty($this->instanceConfig['autoPlay'])) {
-    $query[$this->instanceConfig['autoPlay']] = '1';
+if (!empty($autoPlay)) {
+    $query[$autoPlay] = '1';
 }
 if (!empty($query)) {
     $videoUrl = $videoUrl . '?' . http_build_query($query);
@@ -35,11 +46,28 @@ if (!empty($query)) {
 
 $downloadLinkStyle = (empty($downloadLink) ? 'display: none;' : '');
 
+$overlayLinkTag = '';
+if (!empty($overlayLink)) {
+    $overlayLinkTag
+        = '
+        <div class="rcm-vimeo-overlay" style="position: relative; width=100%;">
+            <a href="' . $overlayLink . '" 
+            style="display: block; position: relative; top: 0; left:0; width=100%;"
+            rcm-vimeo-aspect-ratio="' . $ratio . '"
+            > 
+            </a>
+        </div>
+        ';
+}
+
 ?>
+
 <div class="rcm-vimeo">
     <div class="rcm-vimeo-video">
-        <a id="rcm-vimeo-a-tag-<?= $this->instanceId; ?>" class="rcm-vimeo-video-download"
-           style="<?= $downloadLinkStyle ?>" target="_blank">Download Video</a>
+        <a class="rcm-vimeo-video-download"
+           style="<?= $downloadLinkStyle ?>"
+           href="<?= $downloadLink ?>"
+           target="_blank"><?= $this->translate('Download Video') ?></a>
         <script>
             //Hide download links from crawlers to help avoid going over Vimeo's API rate limit
             document.getElementById('rcm-vimeo-a-tag-<?= $this->instanceId; ?>').href
@@ -52,6 +80,7 @@ $downloadLinkStyle = (empty($downloadLink) ? 'display: none;' : '');
                     webkitAllowFullScreen
                     mozallowfullscreen
                     allowFullScreen></iframe>
+            <?= $overlayLinkTag ?>
         </div>
         <div class='embed-container placeholder' rcm-vimeo-aspect-ratio="<?= $ratio; ?>">
             <div class="icon">&nbsp;</div>
@@ -63,3 +92,4 @@ $downloadLinkStyle = (empty($downloadLink) ? 'display: none;' : '');
         </div>
     </div>
 </div>
+

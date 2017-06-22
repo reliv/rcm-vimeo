@@ -54,6 +54,7 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
             self.instanceConfig.aspectRatio
         );
 
+        /* <autoPlay> */
         var autoPlay = jQuery.dialogIn(
             'select',
             'AutoPlay',
@@ -64,6 +65,34 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
             },
             self.instanceConfig.autoPlay
         );
+
+        var overLayLinkInput = jQuery.dialogIn(
+            'url',
+            'Overlay link <br/>' +
+            '<em>(Will cover the video with a link, leave empty for no link)</em>',
+            self.instanceConfig.overlayLink
+        );
+
+        var setAutoPlayState = function (autoPlayType) {
+            switch(autoPlayType) {
+                case 'background':
+                    overLayLinkInput.show();
+                    break;
+                default:
+                    overLayLinkInput.hide();
+            }
+        };
+
+        var handleAutoPlaySelect = function () {
+            var elm = jQuery(this);
+            setAutoPlayState(elm.val());
+        };
+
+        autoPlay.find('select').change(
+            handleAutoPlaySelect
+        );
+
+        /* </autoPlay> */
 
         /* <downloadLink> */
         var downloadLinkTypeSelections = {
@@ -132,6 +161,7 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
             .append(videoIdInput)
             .append(aspectRatioInput)
             .append(autoPlay)
+            .append(overLayLinkInput)
             .append(downloadLinkTypeInput)
             .append(downloadLinkInput)
             .append(downloadWidthInput)
@@ -144,6 +174,7 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
                     buttons: {
                         Cancel: function () {
                             setTypeState(initialInstanceConfig.downloadLinkType);
+                            setAutoPlayState(initialInstanceConfig.autoPlay);
                             jQuery(this).dialog("close");
                         },
                         Ok: function () {
@@ -152,8 +183,10 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
                             self.instanceConfig.downloadLink = downloadLinkInput.val();
                             self.instanceConfig.downloadWidth = downloadWidthInput.val();
                             self.instanceConfig.autoPlay = autoPlay.val();
+                            self.instanceConfig.overlayLink = overLayLinkInput.val();
 
                             setTypeState(self.instanceConfig.downloadLinkType);
+                            setAutoPlayState(self.instanceConfig.autoPlay);
 
                             var aspectRatio = aspectRatioInput.val();
                             if (!self.isValidRatio(aspectRatio)) {
@@ -168,7 +201,9 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
                 }
             );
 
+        // Set initial state
         setTypeState(self.instanceConfig.downloadLinkType);
+        setAutoPlayState(self.instanceConfig.autoPlay);
     };
 
     self.isValidRatio = function (aspectRatio) {

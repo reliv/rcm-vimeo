@@ -1,3 +1,4 @@
-common
-======
-An editable area that allows you to add text, images, lists, links and more.
+Vimeo Player - RCM Plugin
+=========================
+
+Allows for embedding a Vimeo player on an RCM CSM page
