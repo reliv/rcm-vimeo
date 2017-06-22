@@ -70,7 +70,7 @@ if (!empty($overlayLink)) {
            rel="nofollow"
            target="_blank"><?= $this->translate('Download Video') ?></a>
         <script>
-            //Hide download links from crawlers to help avoid going over Vimeo's API rate limit
+            <?php //Hide download links from crawlers to help avoid going over Vimeo's API rate limit ?>
             document.getElementById('rcm-vimeo-a-tag-<?= $this->instanceId; ?>').href
                 = '<?= substr($downloadLink, 0, 10) ?>' + '<?= substr($downloadLink, 10) ?>';
         </script>
