@@ -67,6 +67,7 @@ if (!empty($overlayLink)) {
         <a class="rcm-vimeo-video-download"
            style="<?= $downloadLinkStyle ?>"
            href="<?= $downloadLink ?>"
+           rel="nofollow"
            target="_blank"><?= $this->translate('Download Video') ?></a>
         <script>
             //Hide download links from crawlers to help avoid going over Vimeo's API rate limit
