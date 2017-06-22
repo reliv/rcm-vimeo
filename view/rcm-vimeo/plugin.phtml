@@ -38,9 +38,12 @@ $downloadLinkStyle = (empty($downloadLink) ? 'display: none;' : '');
 ?>
 <div class="rcm-vimeo">
     <div class="rcm-vimeo-video">
-        <a id="rcm-vimeo-a-tag-<?= $this->instanceId; ?>" class="rcm-vimeo-video-download" style="<?= $downloadLinkStyle ?>" target="_blank">Download Video</a>
+        <a id="rcm-vimeo-a-tag-<?= $this->instanceId; ?>" class="rcm-vimeo-video-download"
+           style="<?= $downloadLinkStyle ?>" target="_blank">Download Video</a>
         <script>
-            document.getElementById('rcm-vimeo-a-tag-<?= $this->instanceId; ?>').href='<?= $downloadLink ?>';
+            //Hide download links from crawlers to help avoid going over Vimeo's API rate limit
+            document.getElementById('rcm-vimeo-a-tag-<?= $this->instanceId; ?>').href
+                = '<?= substr($downloadLink, 0, 10) ?>' + '<?= substr($downloadLink, 10) ?>';
         </script>
         <div class='embed-container' rcm-vimeo-aspect-ratio="<?= $ratio; ?>">
             <iframe rcm-vimeo-aspect-ratio="<?= $ratio; ?>"
