@@ -64,16 +64,18 @@ if (!empty($overlayLink)) {
 
 <div class="rcm-vimeo">
     <div class="rcm-vimeo-video">
-        <a class="rcm-vimeo-video-download"
-           style="<?= $downloadLinkStyle ?>"
-           href="<?= $downloadLink ?>"
-           rel="nofollow"
-           target="_blank"><?= $this->translate('Download Video') ?></a>
-        <script>
-            <?php //Hide download links from crawlers to help avoid going over Vimeo's API rate limit ?>
-            document.getElementById('rcm-vimeo-a-tag-<?= $this->instanceId; ?>').href
-                = '<?= substr($downloadLink, 0, 10) ?>' + '<?= substr($downloadLink, 10) ?>';
-        </script>
+        <?php if (!empty($downloadLink)): ?>
+            <a class="rcm-vimeo-video-download"
+               id="rcm-vimeo-a-tag-<?= $this->instanceId; ?>"
+               style="<?= $downloadLinkStyle ?>"
+               rel="nofollow"
+               target="_blank"><?= $this->translate('Download Video') ?></a>
+            <script>
+                <?php //Hide download links from crawlers to help avoid going over Vimeo's API rate limit ?>
+                document.getElementById('rcm-vimeo-a-tag-<?= $this->instanceId; ?>').href
+                    = '<?= substr($downloadLink, 0, 10) ?>' + '<?= substr($downloadLink, 10) ?>';
+            </script>
+        <?php endif ?>
         <div class='embed-container' rcm-vimeo-aspect-ratio="<?= $ratio; ?>">
             <iframe rcm-vimeo-aspect-ratio="<?= $ratio; ?>"
                     src='<?= $videoUrl; ?>'
