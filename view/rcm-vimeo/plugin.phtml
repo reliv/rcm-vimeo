@@ -53,7 +53,7 @@ if (!empty($overlayLink)) {
         <div class="rcm-vimeo-overlay" style="position: relative; width=100%;">
             <a href="' . $overlayLink . '" 
             style="display: block; position: relative; top: 0; left:0; width=100%;"
-            rcm-vimeo-aspect-ratio="' . $ratio . '"
+            data-rcm-vimeo-aspect-ratio="' . $ratio . '"
             > 
             </a>
         </div>
@@ -76,8 +76,8 @@ if (!empty($overlayLink)) {
                     = '<?= substr($downloadLink, 0, 10) ?>' + '<?= substr($downloadLink, 10) ?>';
             </script>
         <?php endif ?>
-        <div class='embed-container' rcm-vimeo-aspect-ratio="<?= $ratio; ?>">
-            <iframe rcm-vimeo-aspect-ratio="<?= $ratio; ?>"
+        <div class='embed-container' data-rcm-vimeo-aspect-ratio="<?= $ratio; ?>">
+            <iframe data-rcm-vimeo-aspect-ratio="<?= $ratio; ?>"
                     src='<?= $videoUrl; ?>'
                     frameborder='0'
                     webkitAllowFullScreen
@@ -85,7 +85,7 @@ if (!empty($overlayLink)) {
                     allowFullScreen></iframe>
             <?= $overlayLinkTag ?>
         </div>
-        <div class='embed-container placeholder' rcm-vimeo-aspect-ratio="<?= $ratio; ?>">
+        <div class='embed-container placeholder' data-rcm-vimeo-aspect-ratio="<?= $ratio; ?>">
             <div class="icon">&nbsp;</div>
             <div class="label">
                 <a href="https://vimeo.com/<?= $videoId ?>" target="_blank">

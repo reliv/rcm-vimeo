@@ -223,8 +223,8 @@ var RcmVimeoEdit = function (instanceId, container, pluginHandler) {
      */
     self.setAspectRation = function (aspectRatio) {
         self.instanceConfig.aspectRatio = aspectRatio;
-        container.find('[rcm-vimeo-aspect-ratio]').attr(
-            'rcm-vimeo-aspect-ratio',
+        container.find('[data-rcm-vimeo-aspect-ratio]').attr(
+            'data-rcm-vimeo-aspect-ratio',
             aspectRatio
         );
         rcmVimeo.setAspectRatios();
